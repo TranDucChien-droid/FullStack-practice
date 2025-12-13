@@ -3,10 +3,6 @@ import bcrypt from 'bcrypt';
 import userModel from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 
-const createToken = (id) => {
-	return jwt.sign({ id }, process.env.JWT_SECRET);
-};
-
 export const loginUser = async (req, res) => {
 	try {
 		const { email, password } = req.body;
@@ -29,16 +25,40 @@ export const loginUser = async (req, res) => {
 			});
 		}
 
-		const token = createToken(user._id);
+		const token = jwt.sign(
+			{ _id: user._id, isAdmin: user.isAdmin, email, password },
+			process.env.JWT_SECRET
+		);
 		res.json({ isSuccess: true, message: 'Login Success', token });
-
 	} catch (error) {
 		console.log('res error', error);
-		return res.json({ isSuccess: false, message: error.message });
+		res.json({ isSuccess: false, message: error.message });
 	}
 };
 
-export const loginAdmin = async (req, res) => {};
+export const loginAdmin = async (req, res) => {
+	try {
+		const { email, password } = req.body;
+
+		const user = await userModel.findOne({ email });
+
+		if (!user.isAdmin) {
+			res.json({
+				isSuccess: false,
+				message: 'This account is not an admin',
+			});
+		}
+
+		const token = jwt.sign(
+			{ _id: user._id, isAdmin: user.isAdmin, email, password },
+			process.env.JWT_SECRET
+		);
+		res.json({ isSuccess: true, message: 'Login Admin Success', token });
+	} catch (error) {
+		console.log('res error', error);
+		res.json({ isSuccess: false, message: error.message });
+	}
+};
 
 export const registerUser = async (req, res) => {
 	try {
@@ -73,28 +93,23 @@ export const registerUser = async (req, res) => {
 		const token = createToken(user._id);
 
 		res.json({ isSuccess: true, message: 'Gen Token', token });
-
-		// console.log('res', res);
 	} catch (error) {
 		console.log('res error', error);
-		return res.json({ isSuccess: false, message: error.message });
+		res.json({ isSuccess: false, message: error.message });
 	}
 };
 
 export const findAll = async (req, res) => {
 	try {
 		const exists = await userModel.find().exec();
-
-		console.log('res', res.owner);
-
 		res.json({
 			isSuccess: true,
+			length: exists.length,
 			message: 'Find All Success',
 			data: exists,
-			length: exists.length,
 		});
 	} catch (error) {
 		console.log('res error', error);
-		return res.json({ isSuccess: false, message: 'Error' });
+		res.json({ isSuccess: false, message: 'Error' });
 	}
 };
