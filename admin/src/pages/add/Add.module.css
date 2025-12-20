@@ -1,0 +1,20 @@
+.container {
+    margin: 20px;
+}
+
+.container .form {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.container .form .form-images {
+    display: flex;
+    gap: 10px;
+}
+
+.container .form .form-fields {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
