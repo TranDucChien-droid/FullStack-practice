@@ -1,17 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
+import { backendURL } from '../App';
 
 const Request = axios.create({
-	baseURL: process.env.REACT_APP_HOST_DOMAIN,
+	baseURL: backendURL,
 	timeout: 60000,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
 	},
 });
-
-const isNeedToken = (url) => {
-	return true;
-};
 
 // const refreshToken = async (config, refreshToken) => {
 //   return await axios.post(
@@ -29,28 +26,21 @@ const isNeedToken = (url) => {
 //   );
 // };
 
-// const appendAuthToken = (
-//   config,
-//   authToken
-// ) => {
-//   return {
-//     ...config,
-//     headers: {
-//       ...config.headers,
-//       Authorization: `Bearer ${authToken}`,
-//     },
-//   };
-// };
+const appendAuthToken = (config, authToken) => {
+	return {
+		...config,
+		headers: {
+			...config.headers,
+			token: `${authToken}`,
+			Authorization: `${authToken}`,
+		},
+	};
+};
 
 Request.interceptors.request.use(
 	(config) => {
-		if (!isNeedToken(config?.url)) {
-			return config;
-		}
-		return appendAuthToken(
-			config,
-			store?.getState()?.['feature/auth']?.access_token
-		);
+		const access_token = localStorage.getItem('access_token');
+		return appendAuthToken(config, access_token);
 	},
 	(error) => {
 		return Promise.reject(error?.message);

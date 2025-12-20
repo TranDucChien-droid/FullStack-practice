@@ -1,0 +1,12 @@
+.form-field-input {
+	display: flex;
+	flex-direction: column;
+}
+
+.form-field-input .field {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	width: 250px;
+	height: 36px;
+	background-color: white;
+}

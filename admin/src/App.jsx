@@ -1,7 +1,9 @@
 import css from './App.module.css';
+import { Outlet } from 'react-router-dom';
 import Navbar from './components/NavBar/Navbar';
 import Sidebar from './components/SideBar/Sidebar';
-import MainRouter from './router/MainRouter';
+
+export const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
 	return (
@@ -13,7 +15,7 @@ function App() {
 				<Sidebar />
 			</div>
 			<div className={css['content']}>
-				<MainRouter />
+				<Outlet />
 			</div>
 		</div>
 	);
