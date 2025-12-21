@@ -1,0 +1,40 @@
+.container {
+	margin: 0 0 0 20px;
+	word-break: break-word;
+}
+
+.container .table {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	overflow: auto;
+	max-height: calc(100vh - 110px);
+}
+
+.container .table .row {
+	display: grid;
+	grid-template-columns: repeat(6, 150px);
+	align-items: center;
+	gap: 20px;
+}
+
+.container .table .row .button {
+    width: 100px;
+    height: 36px;
+	border-radius: 5px;
+	background-color: black;
+	color: white;
+    cursor: pointer;
+}
+
+.container .table .row:first-child {
+	margin-top: 20px;
+}
+
+.container .table .row:last-child {
+	margin-bottom: 20px;
+}
+
+.container .image-placeholder {
+	width: 150px;
+}

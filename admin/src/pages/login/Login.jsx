@@ -1,14 +1,14 @@
 import { useRef } from 'react';
 import css from './Login.module.css';
-import Request from '../../services/Request';
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Button from '../../components/Button/Button';
+import { LoginService } from '../../services';
 
 export default function Login() {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
-	const navigate = useNavigate();
+
+	const { mutate } = LoginService.useLoginService();
 
 	useEffect(() => {
 		const access_token = localStorage.getItem('access_token');
@@ -19,28 +19,12 @@ export default function Login() {
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const email = emailRef.current.value;
-			const password = passwordRef.current.value;
 
-			const payload = { email, password };
+		const email = emailRef.current.value;
+		const password = passwordRef.current.value;
 
-			const res = await Request({
-				method: 'POST',
-				url: 'user/admin/login',
-				data: payload,
-			});
-
-			const {
-				data: { token },
-			} = res;
-
-			localStorage.setItem('access_token', token);
-			navigate('/');
-		} catch (error) {
-			console.log('error', error);
-			throw new Error('error');
-		}
+		const payload = { email, password };
+		mutate({ ...payload });
 	};
 
 	return (

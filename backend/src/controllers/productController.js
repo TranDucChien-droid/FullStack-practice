@@ -11,16 +11,10 @@ export const addProduct = async (req, res) => {
 			category,
 			subCategory,
 			sizes,
-			bestSeller,
+			bestSeller
 		} = req.body;
 
-		const image1 = req?.files?.image1?.[0];
-		const image2 = req?.files?.image2?.[0];
-		const image3 = req?.files?.image3?.[0];
-		const image4 = req?.files?.image4?.[0];
-
-		const images = [image1, image2, image3, image4].filter(Boolean);
-
+		const images = req?.files;
 		const imageUrls = await Promise.all(
 			images.map(async (item) => {
 				let result = await cloudinary.uploader.upload(item.path, {

@@ -14,8 +14,6 @@ export const adminAuth = async (req, res, next) => {
 			return res.json({ isSuccess: false, message: 'Unauthorized not an admin' });
         }
 
-		console.log(token_decode);
-
         next();
 	} catch (error) {
 		res.json({ isSuccess: false, message: error.message });

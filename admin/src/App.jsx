@@ -17,6 +17,7 @@ function App() {
 			<div className={css['content']}>
 				<Outlet />
 			</div>
+			<div className={css['footer']}>Footer</div>
 		</div>
 	);
 }
