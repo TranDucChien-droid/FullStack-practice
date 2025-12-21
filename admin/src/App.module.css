@@ -1,6 +1,5 @@
 .main-container {
 	display: grid;
-	margin: 20px 0 20px 20px;
 
 	grid-template-columns: 20% 1fr;
 	grid-template-rows: 60px 1fr 50px;
@@ -14,19 +13,22 @@
 /* Area assignments */
 .navbar {
 	grid-area: navbar;
+	margin: 0 20px;
 }
 
 .sidebar {
 	grid-area: sidebar;
-	margin-right: 10px;
+	margin: 0 20px;
 }
 
 .content {
 	grid-area: content;
 	background: #f3f4f6;
-	min-height: 100vh;
+	width: 100%;
+	height: calc(100vh - 110px);
 }
 
 .footer {
 	grid-area: footer;
+	margin: 0 20px;
 }

@@ -4,8 +4,8 @@ import Select from '../../components/Select/Select';
 import TextField from '../../components/TextField/TextField';
 import Upload from '../../components/Upload/Upload';
 import css from './Add.module.css';
-import { useEffect } from 'react';
-import Request from '../../services/Request';
+import { ProductService } from '../../services';
+import classNames from 'classnames';
 
 const initPayload = {
 	name: '',
@@ -22,8 +22,13 @@ export default function Add() {
 	const [, startTransition] = useTransition();
 	const [payload, setPayload] = useState(initPayload);
 
+	const { mutate, isPending } = ProductService.useAddProductService();
+
 	const oneImageUploaded = (ev) => {
-		setPayload({ ...payload, [ev.target.id]: ev.target.files[0] });
+		setPayload({
+			...payload,
+			image: [...(payload.image ?? []), ev.target.files[0]],
+		});
 	};
 
 	const onFieldChange = (ev) => {
@@ -42,55 +47,54 @@ export default function Add() {
 
 	const onFormSubmit = async (ev) => {
 		ev.preventDefault();
-		try {
-			const data = { ...payload };
-			const formData = new FormData();
+		const { image, ...data } = { ...payload };
+		const formData = new FormData();
 
-			Object.entries(data).forEach(([key, value]) => {
-				formData.append(key, value);
-			});
+		console.log(data);
 
-			const res = await Request({
-				method: 'POST',
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-				url: 'product/add',
-				data: formData,
-			});
-			
-			console.log(res);
-			
-		} catch (error) {
-			console.log('error', error);
-			throw new Error('error');
+		Object.entries(data).forEach(([key, value]) => {
+			formData.append(key, value);
+		});
+
+		for (let i = 0; i < image.length; i++) {
+			// Use the same key name for all files (e.g., 'files')
+			formData.append('image', image[i]);
 		}
+
+		mutate(formData);
 	};
 
 	return (
 		<div className={css['container']}>
-			<form onSubmit={onFormSubmit} className={css['form']}>
+			{isPending ? 'Loading...' : null}
+			<form
+				onSubmit={onFormSubmit}
+				className={classNames({
+					[css['form']]: true,
+					[css['pointer-event-disabled']]: isPending,
+				})}
+			>
 				<p>Upload file</p>
 				<div className={css['form-images']}>
 					<Upload
 						onChange={oneImageUploaded}
-						id={'image1'}
-						image={payload.image1}
+						id={'image'}
+						image={payload?.image?.[0]}
 					/>
 					<Upload
 						onChange={oneImageUploaded}
-						id={'image2'}
-						image={payload.image2}
+						id={'image'}
+						image={payload?.image?.[1]}
 					/>
 					<Upload
 						onChange={oneImageUploaded}
-						id={'image3'}
-						image={payload.image3}
+						id={'image'}
+						image={payload?.image?.[2]}
 					/>
 					<Upload
 						onChange={oneImageUploaded}
-						id={'image4'}
-						image={payload.image4}
+						id={'image'}
+						image={payload?.image?.[3]}
 					/>
 				</div>
 				<div className={css['form-fields']}>

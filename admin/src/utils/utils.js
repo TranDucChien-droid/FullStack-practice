@@ -15,3 +15,5 @@ export function slugify(input) {
 
 	return slug;
 }
+
+export const displayAllValues = (item) => Object.values(item).join(' - ');
