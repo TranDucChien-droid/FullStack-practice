@@ -56,8 +56,7 @@ export default function Add() {
 			formData.append(key, value);
 		});
 
-		for (let i = 0; i < image.length; i++) {
-			// Use the same key name for all files (e.g., 'files')
+		for (let i = 0; i < image?.length; i++) {
 			formData.append('image', image[i]);
 		}
 

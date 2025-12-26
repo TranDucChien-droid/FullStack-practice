@@ -11,7 +11,7 @@ export const addProduct = async (req, res) => {
 			category,
 			subCategory,
 			sizes,
-			bestSeller
+			bestSeller,
 		} = req.body;
 
 		const images = req?.files;
@@ -53,11 +53,15 @@ export const addProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
 	try {
-		const exists = await productModel.find().exec();
+		const { limit = 10, page = 1 } = req.query;
+		const skip = (page - 1) * limit; // Calculate the offset
+
+		const count  = await productModel.countDocuments({});
+		const exists = await productModel.find().skip(skip).limit(limit).exec();
 		res.json({
 			isSuccess: true,
 			message: 'Find All Success',
-			length: exists.length,
+			length: count,
 			data: exists,
 		});
 	} catch (error) {

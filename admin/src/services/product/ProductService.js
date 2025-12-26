@@ -3,13 +3,14 @@ import { queryClient } from '../../main';
 import Request from '../Request';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-const useGetAllProductService = () => {
+const useGetAllProductService = (params = { page: 1, limit: 10 }) => {
 	const query = useQuery({
-		queryKey: [QUERY_KEYS.PRODUCT],
+		queryKey: [QUERY_KEYS.PRODUCT, params],
 		queryFn: async () => {
 			return await Request({
 				method: 'GET',
 				url: '/product/get',
+				params,
 			});
 		},
 	});
