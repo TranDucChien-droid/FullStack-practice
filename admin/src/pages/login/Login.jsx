@@ -3,17 +3,19 @@ import css from './Login.module.css';
 import { useEffect } from 'react';
 import Button from '../../components/Button/Button';
 import { LoginService } from '../../services';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
+	const navigate = useNavigate();
 
 	const { mutate } = LoginService.useLoginService();
 
 	useEffect(() => {
 		const access_token = localStorage.getItem('access_token');
 		if (access_token) {
-			navigate('/');
+			navigate('/admin');
 		}
 	}, []);
 
