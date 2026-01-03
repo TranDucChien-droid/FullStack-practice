@@ -3,7 +3,7 @@ import Button from '../../components/Button/Button';
 import Select from '../../components/Select/Select';
 import TextField from '../../components/TextField/TextField';
 import Upload from '../../components/Upload/Upload';
-import css from './Add.module.css';
+import css from './AddPage.module.css';
 import { ProductService } from '../../services';
 import classNames from 'classnames';
 
@@ -18,7 +18,7 @@ const initPayload = {
 	date: Date.now(),
 };
 
-export default function Add() {
+export default function AddPage() {
 	const [, startTransition] = useTransition();
 	const [payload, setPayload] = useState(initPayload);
 

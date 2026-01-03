@@ -5,14 +5,14 @@ import {
 	Route,
 	Routes,
 } from 'react-router-dom';
-import Add from '../pages/add/Add';
-import List from '../pages/list/List';
-import Order from '../pages/order/Order';
-import Login from '../pages/login/Login';
+import AddPage from '../pages/add/AddPage';
+import ListPage from '../pages/list/ListPage';
+import OrderPage from '../pages/order/OrderPage';
+import LoginPage from '../pages/login/LoginPage';
 import App from '../App';
 import { jwtDecode } from 'jwt-decode';
 import { RouterName } from './RouteNames';
-import NotFound from '../pages/404/NotFound';
+import NotFoundPage from '../pages/404/NotFoundPage';
 
 const RequiredAuth = () => {
 	const access_token = localStorage.getItem('access_token');
@@ -28,7 +28,7 @@ const RequiredAuth = () => {
 const MainRouter = () => (
 	<BrowserRouter>
 		<Routes>
-			<Route path={RouterName.LOGIN} element={<Login />}></Route>
+			<Route path={RouterName.LOGIN} element={<LoginPage />}></Route>
 			<Route path="/" element={<RequiredAuth />}>
 				<Route path="/" element={<App />}>
 					<Route
@@ -39,11 +39,11 @@ const MainRouter = () => (
 						path={RouterName.ADMIN}
 						element={<Navigate to={'add'} replace />}
 					/>
-					<Route path={RouterName.ADMIN_ADD} element={<Add />} />
-					<Route path={RouterName.ADMIN_LIST} element={<List />} />
-					<Route path={RouterName.ADMIN_ORDER} element={<Order />} />
+					<Route path={RouterName.ADMIN_ADD} element={<AddPage />} />
+					<Route path={RouterName.ADMIN_LIST} element={<ListPage />} />
+					<Route path={RouterName.ADMIN_ORDER} element={<OrderPage />} />
 				</Route>
-				<Route path="*" element={<NotFound />} />
+				<Route path="*" element={<NotFoundPage />} />
 			</Route>
 		</Routes>
 	</BrowserRouter>

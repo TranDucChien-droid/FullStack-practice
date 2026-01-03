@@ -1,9 +1,9 @@
-import css from './List.module.css';
+import css from './ListPage.module.css';
 import { ProductService } from '../../services';
 import uploadArea from '../../assets/upload_area.png';
 import Button from '../../components/Button/Button';
 
-export default function List() {
+export default function ListPage() {
 	const { data: products, isLoading } =
 		ProductService.useGetAllProductService();
 	const { mutate } = ProductService.useRemoveProductService();

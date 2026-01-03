@@ -1,9 +1,9 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import css from './NotFound.module.css';
+import css from './NotFoundPage.module.css';
 import { useEffect } from 'react';
 import { useRef } from 'react';
 
-export default function NotFound() {
+export default function NotFoundPage() {
 	const navBackRef = useRef();
 	const navigate = useNavigate();
 

@@ -1,11 +1,11 @@
 import { useRef } from 'react';
-import css from './Login.module.css';
+import css from './LoginPage.module.css';
 import { useEffect } from 'react';
 import Button from '../../components/Button/Button';
 import { LoginService } from '../../services';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function LoginPage() {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
 	const navigate = useNavigate();
