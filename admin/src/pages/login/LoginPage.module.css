@@ -8,16 +8,3 @@
     gap: 20px;
 }
 
-.form-container {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.form-container .input {
-	border: 1px solid lightblue;
-    border-radius: 5px;
-    width: 500px;
-    height: 32px;
-}

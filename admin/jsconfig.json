@@ -1,0 +1,10 @@
+// Config for Visual Studio Code
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"],
+			"@components/*": ["src/components/*"]
+		}
+	}
+}

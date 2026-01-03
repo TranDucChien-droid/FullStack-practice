@@ -1,56 +1,10 @@
-import { useRef } from 'react';
+import LoginForm from './components/LoginForm';
 import css from './LoginPage.module.css';
-import { useEffect } from 'react';
-import Button from '../../components/Button/Button';
-import { LoginService } from '../../services';
-import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
-	const emailRef = useRef(null);
-	const passwordRef = useRef(null);
-	const navigate = useNavigate();
-
-	const { mutate } = LoginService.useLoginService();
-
-	useEffect(() => {
-		const access_token = localStorage.getItem('access_token');
-		if (access_token) {
-			navigate('/admin');
-		}
-	}, []);
-
-	const onSubmit = async (e) => {
-		e.preventDefault();
-
-		const email = emailRef.current.value;
-		const password = passwordRef.current.value;
-
-		const payload = { email, password };
-		mutate({ ...payload });
-	};
-
 	return (
 		<div className={css['container']}>
-			<h1>
-				<b>Admin Login</b>
-			</h1>
-			<form onSubmit={onSubmit} className={css['form-container']}>
-				<input
-					className={css['input']}
-					type="email"
-					placeholder="Enter Email"
-					required
-					ref={emailRef}
-				/>
-				<input
-					className={css['input']}
-					type="password"
-					placeholder="Enter password"
-					required
-					ref={passwordRef}
-				/>
-				<Button type="submit">Login</Button>
-			</form>
+			<LoginForm />
 		</div>
 	);
 }
