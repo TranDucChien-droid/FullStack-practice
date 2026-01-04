@@ -1,9 +1,12 @@
 import Request from '../Request';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { useAppDispatch } from '@/redux/store';
+import { updateToken } from '@/redux/auth/AuthSlice';
 
 const useLoginService = () => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 	const mutate = useMutation({
 		mutationFn: async (payload) => {
 			return await Request({
@@ -14,7 +17,7 @@ const useLoginService = () => {
 		},
 		onSuccess: (res) => {
 			const { token } = res.data;
-			localStorage.setItem('access_token', token);
+			dispatch(updateToken({ access_token: token }));
 			navigate('/');
 		},
 		onError: (error) => {

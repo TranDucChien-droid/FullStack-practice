@@ -3,20 +3,16 @@ import css from './LoginForm.module.css';
 import { LoginService } from '@/services';
 import Button from '@/components/Button/Button';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '@/redux/store';
 
 export default function LoginForm() {
 	const emailRef = useRef(null);
 	const passwordRef = useRef(null);
 	const navigate = useNavigate();
 
-	const { mutate } = LoginService.useLoginService();
+	const access_token = useAppSelector((state) => state.auth.access_token);
 
-	useEffect(() => {
-		const access_token = localStorage.getItem('access_token');
-		if (access_token) {
-			navigate('/admin');
-		}
-	}, []);
+	const { mutate } = LoginService.useLoginService();
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
@@ -27,6 +23,14 @@ export default function LoginForm() {
 		const payload = { email, password };
 		mutate({ ...payload });
 	};
+
+	useEffect(() => {
+		if (access_token) {
+			navigate('/');
+		}
+	}, [access_token]);
+
+	if (access_token) return;
 
 	return (
 		<div className={css['container']}>
