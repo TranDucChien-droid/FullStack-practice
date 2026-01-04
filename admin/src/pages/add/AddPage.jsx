@@ -1,5 +1,5 @@
 import css from './AddPage.module.css';
-import AddForm from './components/AddForm';
+import AddForm from './add_form/AddForm';
 
 export default function AddPage() {
 	return (

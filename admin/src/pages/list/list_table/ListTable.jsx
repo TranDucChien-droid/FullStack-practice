@@ -3,13 +3,8 @@ import css from './ListTable.module.css';
 import Button from '@/components/Button/Button';
 import { ProductService } from '@/services';
 import uploadArea from '@/assets/upload_area.png';
-
-export default function ListTable() {
-	const { data: products, isLoading } =
-		ProductService.useGetAllProductService();
+export default function ListTable({ data, isLoading }) {
 	const { mutate } = ProductService.useRemoveProductService();
-
-	const { data: displayData = [] } = products?.data ?? {};
 
 	const onDeleteRow = (id) => () => {
 		mutate(id);
@@ -21,7 +16,7 @@ export default function ListTable() {
 				'Loading...'
 			) : (
 				<div className={css['table']}>
-					{displayData.map((item) => (
+					{data.map((item) => (
 						<div className={css['row']} key={item._id}>
 							<img
 								className={css['image-placeholder']}

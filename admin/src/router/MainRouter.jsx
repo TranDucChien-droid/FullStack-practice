@@ -33,11 +33,11 @@ const MainRouter = () => (
 				<Route path="/" element={<App />}>
 					<Route
 						index
-						element={<Navigate to={RouterName.ADMIN_ADD} replace />}
+						element={<Navigate to={RouterName.ADMIN_LIST} replace />}
 					/>
 					<Route
 						path={RouterName.ADMIN}
-						element={<Navigate to={'add'} replace />}
+						element={<Navigate to={'list'} replace />}
 					/>
 					<Route path={RouterName.ADMIN_ADD} element={<AddPage />} />
 					<Route path={RouterName.ADMIN_LIST} element={<ListPage />} />
