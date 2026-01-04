@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { backendURL } from '../App';
+import store from '@/redux/store';
 
 const Request = axios.create({
 	baseURL: backendURL,
@@ -39,7 +40,7 @@ const appendAuthToken = (config, authToken) => {
 
 Request.interceptors.request.use(
 	(config) => {
-		const access_token = localStorage.getItem('access_token');
+		const access_token = store.getState()?.auth?.access_token;
 		return appendAuthToken(config, access_token);
 	},
 	(error) => {

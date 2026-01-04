@@ -1,7 +1,7 @@
 import LoginForm from './login_form/LoginForm';
-import css from './LoginPage.module.css';
+import css from './AuthPage.module.css';
 
-export default function LoginPage() {
+export default function AuthPage() {
 	return (
 		<div className={css['container']}>
 			<LoginForm />

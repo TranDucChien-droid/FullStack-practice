@@ -3,6 +3,7 @@ import css from './ListTable.module.css';
 import Button from '@/components/Button/Button';
 import { ProductService } from '@/services';
 import uploadArea from '@/assets/upload_area.png';
+
 export default function ListTable({ data, isLoading }) {
 	const { mutate } = ProductService.useRemoveProductService();
 
