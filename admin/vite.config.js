@@ -14,5 +14,10 @@ export default defineConfig({
 			'@': path.resolve(__dirname, 'src'),
 			'@components': path.resolve(__dirname, 'src/components'),
 		},
+	}, // Add the react plugin here
+	test: {
+		globals: true,
+		environment: 'jsdom', // Or 'happy-dom'
+		// ... other test options
 	},
 });

@@ -2,6 +2,19 @@ import { v2 as cloudinary } from 'cloudinary';
 
 import productModel from '../models/productModel.js';
 
+const uploadImages = async (files = []) => {
+	if (!files || !files.length) return [];
+	const urls = await Promise.all(
+		files.map(async (item) => {
+			const result = await cloudinary.uploader.upload(item.path, {
+				resource_type: 'image',
+			});
+			return result.secure_url;
+		})
+	);
+	return urls;
+};
+
 export const addProduct = async (req, res) => {
 	try {
 		const {
@@ -14,15 +27,9 @@ export const addProduct = async (req, res) => {
 			bestSeller,
 		} = req.body;
 
-		const images = req?.files;
-		const imageUrls = await Promise.all(
-			images.map(async (item) => {
-				let result = await cloudinary.uploader.upload(item.path, {
-					resource_type: 'image',
-				});
-				return result.secure_url;
-			})
-		);
+		const imageUrls = await uploadImages(req.files);
+
+		const parsedSizes = sizes ? JSON.parse(sizes) : [];
 
 		const productData = {
 			name,
@@ -30,7 +37,7 @@ export const addProduct = async (req, res) => {
 			price: Number(price),
 			category,
 			subCategory,
-			sizes: JSON.parse(sizes),
+			sizes: parsedSizes,
 			bestSeller: bestSeller === 'true',
 			image: imageUrls,
 			date: Date.now(),
@@ -42,7 +49,53 @@ export const addProduct = async (req, res) => {
 
 		res.json({
 			isSuccess: true,
-			message: 'Success',
+			message: 'Add Product Success',
+			data: response,
+		});
+	} catch (error) {
+		console.log('res error', error);
+		res.json({ isSuccess: false, message: error.message });
+	}
+};
+
+export const updateProduct = async (req, res) => {
+	try {
+		const id = req.params.id;
+		const {
+			name,
+			description,
+			price,
+			category,
+			subCategory,
+			sizes,
+			bestSeller,
+		} = req.body;
+
+		const updateData = {};
+		if (name) updateData.name = name;
+		if (description) updateData.description = description;
+		if (price !== undefined) updateData.price = Number(price);
+		if (category) updateData.category = category;
+		if (subCategory) updateData.subCategory = subCategory;
+		if (sizes) updateData.sizes = JSON.parse(sizes);
+		if (bestSeller !== undefined) updateData.bestSeller = bestSeller === 'true';
+
+		const imageUrls = await uploadImages(req.files);
+		if (imageUrls && imageUrls.length) updateData.image = imageUrls;
+
+		updateData.date = Date.now();
+
+		const response = await productModel.findByIdAndUpdate(id, updateData, {
+			new: true,
+		});
+
+		if (!response) {
+			return res.json({ isSuccess: false, message: 'Product not Found' });
+		}
+
+		res.json({
+			isSuccess: true,
+			message: 'Update Product Success',
 			data: response,
 		});
 	} catch (error) {

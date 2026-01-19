@@ -1,6 +1,7 @@
 import express from 'express';
 import {
 	addProduct,
+	updateProduct,
 	getProductByID,
 	getProducts,
 	removeProduct,
@@ -13,6 +14,7 @@ const productRoutes = express.Router();
 productRoutes.get('/get', getProducts);
 productRoutes.get('/get/:id', getProductByID);
 productRoutes.post('/add', adminAuth, upload.array('image', 10), addProduct);
+productRoutes.put('/update/:id', adminAuth, upload.array('image', 10), updateProduct);
 productRoutes.delete('/remove/:id', adminAuth, removeProduct);
 
 export default productRoutes;
